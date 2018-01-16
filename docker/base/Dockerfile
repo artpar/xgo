@@ -71,8 +71,8 @@ ENV UPDATE_IOS /update_ios.sh
 RUN chmod +x $UPDATE_IOS
 
 RUN \
-  IOS_SDK_PATH=https://sdks.website/dl/iPhoneOS9.3.sdk.tbz2     && \
-  $FETCH $IOS_SDK_PATH db5ecf91617abf26d3db99e769bd655b943905e5 && \
+  IOS_SDK_PATH=https://github.com/Sn0wCooder/theos-sdks/raw/master/iPhoneOS9.3.sdk.tbz2     && \
+  $FETCH $IOS_SDK_PATH 9dc2b53cb1eaef6e88cc3db5f0e138050b370e455c2605183f7732f29ae1eb41 && \
   mv `basename $IOS_SDK_PATH` iPhoneOS9.3.sdk.tar.bz2           && \
   $UPDATE_IOS /iPhoneOS9.3.sdk.tar.bz2                          && \
   rm -rf /iPhoneOS9.3.sdk.tar.bz2

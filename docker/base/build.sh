@@ -22,6 +22,8 @@
 #   TARGETS        - Comma separated list of build targets to compile for
 #   GO_VERSION     - Bootstrapped version of Go to disable uncupported targets
 #   EXT_GOPATH     - GOPATH elements mounted from the host filesystem
+#   GOGET          - go dependency command
+#   GORICE         - go.rice command
 
 # Define a function that figures out the binary extension
 function extension {
@@ -45,6 +47,8 @@ function extension {
     fi
   fi
 }
+go get github.com/GeertJohan/go.rice
+go get github.com/GeertJohan/go.rice/rice
 
 # Either set a local build environemnt, or pull any remote imports
 if [ "$EXT_GOPATH" != "" ]; then
@@ -145,6 +149,8 @@ if [ "$FLAG_BUILDMODE" != "" ] && [ "$FLAG_BUILDMODE" != "default" ]; then BM="-
 if [ "$TARGETS" == "" ]; then
   TARGETS="./."
 fi
+
+rice embed-go
 
 # Build for each requested platform individually
 for TARGET in $TARGETS; do
