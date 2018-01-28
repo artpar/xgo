@@ -69,7 +69,7 @@ ENV IOS_SIM_NDK_AMD64 /usr/local/ios-sim-ndk-amd64
 ADD update_ios.sh /update_ios.sh
 ENV UPDATE_IOS /update_ios.sh
 RUN chmod +x $UPDATE_IOS
-
+RUN apt-get install make
 RUN \
   IOS_SDK_PATH=https://github.com/Sn0wCooder/theos-sdks/raw/master/iPhoneOS9.3.sdk.tbz2     && \
   $FETCH $IOS_SDK_PATH 9dc2b53cb1eaef6e88cc3db5f0e138050b370e455c2605183f7732f29ae1eb41 && \
