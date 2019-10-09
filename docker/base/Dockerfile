@@ -106,6 +106,8 @@ RUN \
 
 RUN git clone https://github.com/mackyle/xar.git /tmp/xar && cd /tmp/xar/xar && ./autogen.sh --prefix=/ && make -j8 && make install && ./autogen.sh --prefix=/ && make -j8 && make install && cd / && rm -rf /tmp/xar
 RUN git clone https://github.com/tpoechtrager/apple-libtapi /tmp/tapi && ls -lah /tmp/tapi && cd /tmp/tapi && INSTALLPREFIX=/ ./build.sh && ./install.sh && cd / && rm -rf /tmp/tapi
+RUN git clone https://github.com/skaht/Csu-85 /tmp/crt0 && cd /tmp/crt0 && make && make install && cd / && rm -rf /tmp/crt0 && cp /usr/local/lib/crt0.o /lib/crt0.o
+RUN ls -lah /lib
 
 ENV PATH /usr/$ANDROID_CHAIN_ARM/bin:$PATH
 ENV PATH /usr/$ANDROID_CHAIN_ARM64/bin:$PATH
