@@ -44,7 +44,7 @@ RUN ln -s /usr/include/asm-generic /usr/include/asm
 # Configure the container for OSX cross compilation
 ENV OSX_SDK     MacOSX10.11.sdk
 ENV OSX_NDK_X86 /usr/local/osx-ndk-x86
-
+RUN apt-get install -y cmake
 RUN \
   OSX_SDK_PATH=https://s3.dockerproject.org/darwin/v2/$OSX_SDK.tar.xz && \
   $FETCH $OSX_SDK_PATH dd228a335194e3392f1904ce49aff1b1da26ca62       && \
@@ -71,7 +71,7 @@ ENV UPDATE_IOS /update_ios.sh
 RUN chmod +x $UPDATE_IOS
 
 RUN \
-  IOS_SDK_PATH=https://sdks.website/dl/iPhoneOS9.3.sdk.tbz2     && \
+  IOS_SDK_PATH=https://github.com/Sn0wCooder/theos-sdks/raw/master/iPhoneOS9.3.sdk.tbz2    && \
   $FETCH $IOS_SDK_PATH db5ecf91617abf26d3db99e769bd655b943905e5 && \
   mv `basename $IOS_SDK_PATH` iPhoneOS9.3.sdk.tar.bz2           && \
   $UPDATE_IOS /iPhoneOS9.3.sdk.tar.bz2                          && \
@@ -103,6 +103,9 @@ RUN \
     "$ANDROID_NDK/toolchains/$ANDROID_CHAIN_ARM64/*"                 \
     "$ANDROID_NDK/toolchains/$ANDROID_CHAIN_386/*" -d /usr/local > /dev/null && \
   rm -f `basename $ANDROID_NDK_PATH`
+
+RUN git clone https://github.com/mackyle/xar.git /tmp/xar && cd /tmp/xar/xar && ./autogen.sh --prefix=/ && make -j8 && make install && ./autogen.sh --prefix=/ && make -j8 && make install && cd / && rm -rf /tmp/xar
+RUN git clone https://github.com/tpoechtrager/apple-libtapi /tmp/tapi && ls -lah /tmp/tapi && cd /tmp/tapi && INSTALLPREFIX=/ ./build.sh && ./install.sh && cd / && rm -rf /tmp/tapi
 
 ENV PATH /usr/$ANDROID_CHAIN_ARM/bin:$PATH
 ENV PATH /usr/$ANDROID_CHAIN_ARM64/bin:$PATH

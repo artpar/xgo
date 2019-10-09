@@ -1,5 +1,4 @@
 #!/bin/bash
-#
 # Contains the Go tool-chain pure-Go bootstrapper, that as of Go 1.5, initiates
 # not only a few pre-built Go cross compilers, but rather bootstraps all of the
 # supported platforms from the origin Linux amd64 distribution.
@@ -55,6 +54,7 @@ GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc go install std
 echo "Bootstrapping windows/386..."
 GOOS=windows GOARCH=386 CGO_ENABLED=1 CC=i686-w64-mingw32-gcc go install std
 
+pwd
 echo "Bootstrapping darwin/amd64..."
 GOOS=darwin GOARCH=amd64 CGO_ENABLED=1 CC=o64-clang go install std
 

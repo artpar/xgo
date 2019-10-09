@@ -15,7 +15,6 @@
 #   DIST_WIN_64,    DIST_WIN_64_SHA    - 64 bit Windows Go binaries and checksum
 #   DIST_WIN_32,    DIST_WIN_32_SHA    - 32 bit Windows Go binaries and checksum
 set -e
-
 # Download and verify all the binary packages
 $FETCH $DIST_LINUX_64  $DIST_LINUX_64_SHA
 $FETCH $DIST_LINUX_32  $DIST_LINUX_32_SHA

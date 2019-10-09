@@ -22,7 +22,6 @@
 #   TARGETS        - Comma separated list of build targets to compile for
 #   GO_VERSION     - Bootstrapped version of Go to disable uncupported targets
 #   EXT_GOPATH     - GOPATH elements mounted from the host filesystem
-
 # Define a function that figures out the binary extension
 function extension {
   if [ "$FLAG_BUILDMODE" == "archive" ] || [ "$FLAG_BUILDMODE" == "c-archive" ]; then
