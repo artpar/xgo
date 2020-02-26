@@ -35,7 +35,7 @@ RUN \
     gcc-5-mips64el-linux-gnuabi64 g++-5-mips64el-linux-gnuabi64 libc6-dev-mips64el-cross \
     gcc-5-multilib g++-5-multilib gcc-mingw-w64 g++-mingw-w64 clang llvm-dev             \
     libtool libxml2-dev uuid-dev libssl-dev swig openjdk-8-jdk pkg-config patch          \
-    make xz-utils cpio wget zip unzip p7zip git mercurial bzr texinfo help2man           \
+    make xz-utils cpio wget zip unzip p7zip git mercurial bzr texinfo help2man libpthread-stubs0-dev           \
     --no-install-recommends
 
 # Fix any stock package issues
@@ -44,15 +44,17 @@ RUN ln -s /usr/include/asm-generic /usr/include/asm
 # Configure the container for OSX cross compilation
 ENV OSX_SDK     MacOSX10.11.sdk
 ENV OSX_NDK_X86 /usr/local/osx-ndk-x86
+COPY MacOSX10.11.sdk.tar.xz MacOSX10.11.sdk.tar.xz
+COPY iPhoneOS9.3.sdk.tbz2 iPhoneOS9.3.sdk.tbz2
+ADD osxcross-master.zip osxcross-master.zip
+RUN unzip ../osxcross-master.zip && mv osxcross-master osxcross
 RUN apt-get install -y cmake
+RUN set -x
 RUN \
   OSX_SDK_PATH=https://s3.dockerproject.org/darwin/v2/$OSX_SDK.tar.xz && \
-  $FETCH $OSX_SDK_PATH dd228a335194e3392f1904ce49aff1b1da26ca62       && \
+  mv -v `basename $OSX_SDK_PATH` /osxcross/tarballs/        && \
   \
-  git clone https://github.com/tpoechtrager/osxcross.git && \
-  mv `basename $OSX_SDK_PATH` /osxcross/tarballs/        && \
-  \
-  sed -i -e 's|-march=native||g' /osxcross/build_clang.sh /osxcross/wrapper/build.sh && \
+  sed -i -e 's|-march=native||g' /osxcross/build_clang.sh /osxcross/wrapper/build_wrapper.sh && \
   UNATTENDED=yes OSX_VERSION_MIN=10.6 /osxcross/build.sh                             && \
   mv /osxcross/target $OSX_NDK_X86                                                   && \
   \
@@ -72,7 +74,6 @@ RUN chmod +x $UPDATE_IOS
 
 RUN \
   IOS_SDK_PATH=https://github.com/Sn0wCooder/theos-sdks/raw/master/iPhoneOS9.3.sdk.tbz2    && \
-  $FETCH $IOS_SDK_PATH db5ecf91617abf26d3db99e769bd655b943905e5 && \
   mv `basename $IOS_SDK_PATH` iPhoneOS9.3.sdk.tar.bz2           && \
   $UPDATE_IOS /iPhoneOS9.3.sdk.tar.bz2                          && \
   rm -rf /iPhoneOS9.3.sdk.tar.bz2
