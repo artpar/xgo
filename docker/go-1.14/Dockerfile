@@ -8,7 +8,7 @@ FROM karalabe/xgo-base
 MAINTAINER Péter Szilágyi <peterke@gmail.com>
 
 # Configure the root Go distribution and bootstrap based on it
-ENV GO_VERSION 114
+ENV GO_VERSION 1140
 RUN \
   export ROOT_DIST=https://dl.google.com/go/go1.14.linux-amd64.tar.gz    && \
   export ROOT_DIST_SHA=b449f1b0daf8435cd25387901b296eeacd115d38 && \
