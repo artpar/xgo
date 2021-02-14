@@ -23,6 +23,7 @@
 #   GO_VERSION     - Bootstrapped version of Go to disable uncupported targets
 #   EXT_GOPATH     - GOPATH elements mounted from the host filesystem
 # Define a function that figures out the binary extension
+set -x
 function extension {
   if [ "$FLAG_BUILDMODE" == "archive" ] || [ "$FLAG_BUILDMODE" == "c-archive" ]; then
     if [ "$1" == "windows" ]; then
